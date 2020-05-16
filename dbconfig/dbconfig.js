@@ -2,10 +2,10 @@ const mysql = require('mysql');
 
 var pool = mysql.createPool({
     connectionLimit: 10,
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD, 
-    database: process.env.DATABASE
+    host: 'sql12.freemysqlhosting.net',
+    user: 'sql12341263',
+    password: '1bFWSdFWBT', 
+    database: 'sql12341263'
 });
 
 pool.getConnection((err) =>{
