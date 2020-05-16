@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
 app.use('/api/users', routes);
 
-if(process.env.NODE_ENV != 'production'){
+if(process.env.NODE_ENV === 'production'){
 
     app.use(express.static(path.join(__dirname, 'build')));
     app.get(/.*/, (req, res) => {
