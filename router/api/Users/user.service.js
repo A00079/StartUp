@@ -9,5 +9,14 @@ module.exports = {
             }
             return callBack(null,results);
         });
+    },
+    read : (data, callBack) =>{
+        let sql = 'SELECT email FROM registeredusers WHERE email = ?';
+        pool.query(sql,[data.email],(err,results) =>{
+            if(err){
+                return callBack(err)
+            }
+            return callBack(null,results);
+        });
     }
 };
