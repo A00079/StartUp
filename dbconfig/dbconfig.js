@@ -1,12 +1,14 @@
 const mysql = require('mysql');
 
+
 var pool = mysql.createPool({
     connectionLimit: 10,
-    host: 'sql12.freemysqlhosting.net',
-    user: 'sql12341263',
-    password: '1bFWSdFWBT', 
-    database: 'sql12341263'
+    host: 'localhost',
+    user: 'root',
+    password: '', 
+    database: 'safebasket'
 });
+
 
 pool.getConnection((err) =>{
     if(err){
