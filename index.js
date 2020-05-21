@@ -11,9 +11,20 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
 
-// Routes
+// ENDUSER Routes
 app.use('/api/enduser/user', require('./enduser/user/user.routes'));
-app.use('/api/admin/product', require('./admin/product/product.routes'));
+
+// SHOP Routes
+app.use('/api/shopuser/auth', require('./shopuser/shopAuth/shopAuth.routes'))
+app.use('/api/shopuser/shop', require('./shopuser/shop/shop.routes'))
+// app.use('/api/shopuser/product', require('./shopuser/product'))
+// app.use('/api/shopuser/order', require('./shopuser/order'))
+
+// ADMIN routes
+app.use('/api/adminuser/product', require('./admin/product/product.routes'));
+app.use('/api/adminuser/shop', require('./admin/shop/shop.routes'));
+app.use('/api/adminuser/auth', require('./admin/adminAuth/adminAuth.routes'));
+
 
 
 

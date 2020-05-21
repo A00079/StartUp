@@ -1,88 +1,88 @@
 const productService = require('./product.service');
 
 module.exports = {
-    addProduct : (req, res) => {
+    addProduct: (req, res) => {
         var body = req.body
         productService.add(body, (err, results) => {
-            if(err) {
+            if (err) {
                 return res.status(500).json({
-                    status : 'error',
-                    error : err,
+                    status: 'error',
+                    error: err,
                     message: 'Database connection error'
                 })
             }
             return res.status(200).json({
-                status : 'success',
+                status: 'success',
                 data: results
             })
         })
     },
 
-    getProducts : (req, res) => {
+    getProducts: (req, res) => {
         productService.get((err, results) => {
-            if(err){
+            if (err) {
                 return res.status(500).json({
-                    status : 'error',
-                    error : err,
+                    status: 'error',
+                    error: err,
                     message: 'Database connection error'
                 })
             }
             return res.status(200).json({
-                status : 'success',
-                results : results.length,
+                status: 'success',
+                results: results.length,
                 data: results
             })
         })
     },
 
-    getProduct : (req, res) => {
+    getProduct: (req, res) => {
         var productId = req.params
         productService.getSingle(productId, (err, results) => {
-            if(err) {
+            if (err) {
                 return res.status(500).json({
-                    status : 'error',
-                    error : err,
+                    status: 'error',
+                    error: err,
                     message: 'Database connection error'
                 })
             }
             return res.status(200).json({
                 status: 'success',
-                data : results
+                data: results
             })
         })
     },
 
-    editProduct : (req, res) => {
+    editProduct: (req, res) => {
         var body = req.body
         var productId = req.params
-        productService.edit( body, productId, (err, results) => {
-            if(err) {
+        productService.edit(body, productId, (err, results) => {
+            if (err) {
                 return res.status(500).json({
-                    status : 'error',
-                    error : err,
+                    status: 'error',
+                    error: err,
                     message: 'Database connection error'
                 })
             }
             return res.status(200).json({
                 status: 'success',
-                data : results
+                data: results
             })
         })
     },
 
-    deleteProduct : (req, res) => {
+    deleteProduct: (req, res) => {
         var productId = req.params
         productService.delete(productId, (err, results) => {
-            if(err) {
+            if (err) {
                 return res.status(500).json({
-                    status : 'error',
-                    error : err,
+                    status: 'error',
+                    error: err,
                     message: 'Database connection error'
                 })
             }
             return res.status(200).json({
                 status: 'success',
-                data : results
+                data: results
             })
         })
     },
