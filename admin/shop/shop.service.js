@@ -49,10 +49,10 @@ module.exports = {
 
     addProduct: (data, param, callBack) => {
 
-        let sql = 'INSERT INTO products (name, price, description, stock, image, shop_id) VALUES (?,?,?,?,?,?)';
+        let sql = 'INSERT INTO products (name, price, description, stock, image,unit, shop_id) VALUES (?,?,?,?,?, ?,?)';
 
-        pool.query(sql, [data.name, data.price, data.description, data.stock, data.image,param.id] , (err, results, fields) => {
-            if(err) {
+        pool.query(sql, [data.name, data.price, data.description, data.stock, data.image, data.unit, param.id], (err, results, fields) => {
+            if (err) {
                 return callBack(err)
             }
             return callBack(null, results)
@@ -79,6 +79,19 @@ module.exports = {
         })
     },
 
+    getProducts: (param, callBack) => {
+        var sql = 'SELECT * FROM products WHERE shop_id = ?'
+
+        var insertSql = [param.id]
+
+        pool.query(sql, insertSql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
 
     edit: (data, param, callBack) => {
         let sql = 'UPDATE shop SET name = ?, shopStatus = ?, phone = ? WHERE id = ?'
@@ -90,9 +103,35 @@ module.exports = {
         })
     },
 
+    editProduct: (data, param, param2, callBack) => {
+        var sql = 'UPDATE products SET name = ?, price = ?, description = ?, image = ?, unit = ? WHERE id = ? and shop_id = ?'
+
+        var insertSql = [data.name, data.price, data.description, data.image, data.unit, param2.id, param.id]
+
+        pool.query(sql, insertSql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
     delete: (param, callBack) => {
-        let sql = 'DELETE FROM shop WHERE id = ?'
+        let sql = 'DELETE FROM shop WHERE id = ? '
         pool.query(sql, param.id, (err, results, fields) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
+    deleteProduct: (param, param2, callBack) => {
+        var sql = 'DELETE FROM products WHERE id = ? and shop_id = ?'
+
+        var insertSql = [param.id, param2.id]
+
+        pool.query(sql, insertSql, (err, results) => {
             if (err) {
                 return callBack(err)
             }

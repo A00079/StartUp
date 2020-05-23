@@ -1,7 +1,4 @@
 const shopService = require('./shop.service');
-const isAuth = require('../middlewares/isAuth')
-const config = require('../../config')
-const jwt = require('jsonwebtoken')
 
 
 module.exports = {
@@ -23,9 +20,10 @@ module.exports = {
     },
 
     addShopProduct: (req, res) => {
+
         var body = req.body
         var shopId = req.params
-        shopService.addProduct(body, shopId, (err, results) => {
+        shopService.addProduct(body, shopId,  (err, results) => {
             if (err) {
                 res.status(500).json({
                     status: 'error',
@@ -74,6 +72,23 @@ module.exports = {
         })
     },
 
+    getShopProducts: (req, res) => {
+        var shopId = req.params
+        shopService.getProducts(shopId, (err, results) => {
+            if (err) {
+                res.status(500).json({
+                    status: 'error',
+                    error: err,
+                    message: 'Database connection error'
+                })
+            }
+            return res.status(200).json({
+                status: 'success',
+                data: results
+            })
+        })
+    },
+
     editShop: (req, res) => {
         var body = req.body
         var shopId = req.params
@@ -92,9 +107,47 @@ module.exports = {
         })
     },
 
+    editShopProduct: (req, res) => {
+        var body = req.body
+        var shopId = req.params
+        var productId = req.params
+        shopService.editProduct(body, shopId, productId, (err, results) => {
+            if (err) {
+                res.status(500).json({
+                    status: 'error',
+                    error: err,
+                    message: 'Database connection failed'
+                })
+            }
+            return res.status(200).json({
+                status: 'success',
+                data: results
+            })
+        })
+    },
+
     deleteShop: (req, res) => {
         var shopId = req.params
         shopService.delete(shopId, (err, results) => {
+            if (err) {
+                res.status(500).json({
+                    status: 'error',
+                    error: err,
+                    message: 'Database connection failed'
+                })
+            }
+            return res.status(200).json({
+                status: 'success',
+                data: results
+            })
+        })
+    },
+
+    deleteShopProduct: (req, res) => {
+        var shopId = req.params
+        var productId = req.params
+
+        shopService.deleteProduct(shopId, productId, (err, results) => {
             if (err) {
                 res.status(500).json({
                     status: 'error',

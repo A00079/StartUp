@@ -4,7 +4,6 @@ const { isAuth } = require('../middlewares/isAuth')
 
 // GET routes
 router.get('/profile', isAuth, shopController.shopProfile)
-router.get('/products', isAuth, shopController.getAllProducts)
 
 // PATCH routes
 router.patch('/details', isAuth, shopController.editShopDetails)

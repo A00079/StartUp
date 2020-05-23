@@ -39,18 +39,7 @@ module.exports = {
             }
             return callBack(null, results)
         })
-    },
-
-    getProducts: (userID, callBack) => {
-        var sql = 'SELECT * FROM products WHERE shop_id = ?'     
-        
-        var insertSql = [userID]
-
-        pool.query(sql, insertSql, (err, results) => {
-            if(err) {
-                return callBack(err)
-            }
-            return callBack(null, results)
-        })
     }
+
+    
 }

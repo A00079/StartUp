@@ -22,7 +22,7 @@ module.exports = {
             else if (results.length === 1) {
                 // Correct user credentials
                 var token = jwt.sign({ result: results.username }, config.secret, {
-                    expiresIn: '1h'
+                    expiresIn: '24h'
                 })
             }
             res.status(200).json({

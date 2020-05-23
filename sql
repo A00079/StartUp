@@ -52,3 +52,23 @@ SELECT  shop.id, shop.name, shop.shopId, shop.shopPassword, shop.shopStatus, sho
 ALTER TABLE products
 ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+
+==============================================================
+
+            if (!req.files) {
+                res.status(400).json({
+                    message: 'no files were uploaded'
+                })
+            }
+            var file = req.files.uploaded_image
+            var imageName = file.name
+
+            if (file.mimetype == "image/jpeg" || file.mimetype == "image/png" || file.mimetype == "image/gif") {
+
+                file.mv('public/images/upload_images/' + file.name, (err) => {
+                    if (err) {
+                        return res.status(500).json(err);
+                    }
+                })
+            }

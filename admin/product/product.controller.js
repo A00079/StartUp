@@ -1,22 +1,6 @@
 const productService = require('./product.service');
 
 module.exports = {
-    addProduct: (req, res) => {
-        var body = req.body
-        productService.add(body, (err, results) => {
-            if (err) {
-                return res.status(500).json({
-                    status: 'error',
-                    error: err,
-                    message: 'Database connection error'
-                })
-            }
-            return res.status(200).json({
-                status: 'success',
-                data: results
-            })
-        })
-    },
 
     getProducts: (req, res) => {
         productService.get((err, results) => {
@@ -45,6 +29,11 @@ module.exports = {
                     message: 'Database connection error'
                 })
             }
+            if (results < 1 ) {
+                return res.status(404).json({
+                    message : 'Product ID not found'
+                })
+            }
             return res.status(200).json({
                 status: 'success',
                 data: results
@@ -63,6 +52,11 @@ module.exports = {
                     message: 'Database connection error'
                 })
             }
+            if(results.affectedRows === 0){
+                return res.status(404).json({
+                    message : "Product ID not found"
+                })    
+            }
             return res.status(200).json({
                 status: 'success',
                 data: results
@@ -79,6 +73,11 @@ module.exports = {
                     error: err,
                     message: 'Database connection error'
                 })
+            }
+            if(results.affectedRows === 0){
+                return res.status(404).json({
+                    message : "Product ID not found"
+                })    
             }
             return res.status(200).json({
                 status: 'success',

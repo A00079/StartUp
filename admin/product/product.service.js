@@ -1,15 +1,6 @@
 const pool = require('../../dbconfig/dbconfig');
 
 module.exports = {
-    add: (data, callBack) => {
-        let sql = 'INSERT INTO products (name , price, description , stock, image, shop_id) VALUES (?,?,?,?,?,?)';
-        pool.query(sql, [data.name, data.price, data.description, data.stock, data.image, data.shop_id], (err, results, fields) => {
-            if (err) {
-                return callBack(err)
-            }
-            return callBack(null, results)
-        })
-    },
 
     get: (callBack) => {
         let sql = 'SELECT name, shopStatus, phone, shopaddress.shopNo, shopaddress.complex, shopaddress.landmark, shopaddress.street, shopaddress.area, shopaddress.city FROM shop INNER JOIN shopaddress ON shop.id = shopaddress.shop_id'

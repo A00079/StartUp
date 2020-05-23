@@ -2,8 +2,6 @@ const productController = require('./product.controller');
 const router = require('express').Router();
 const { isAuth } = require('../middlewares/isAuth')
 
-// POST routes
-router.post('/addproduct',isAuth, productController.addProduct);
 
 // GET routes
 router.get('/products', productController.getProducts)
