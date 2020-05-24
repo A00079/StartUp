@@ -102,6 +102,17 @@ module.exports = {
             return callBack(null, results)
         })
     },
+    
+    editStatus: (param, callBack) => {
+        let sql = 'UPDATE shop SET shopStatus = !shopStatus WHERE id = ?'
+        pool.query(sql, [param.id], (err, results, fields) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
 
     editProduct: (data, param, param2, callBack) => {
         var sql = 'UPDATE products SET name = ?, price = ?, description = ?, image = ?, unit = ? WHERE id = ? and shop_id = ?'

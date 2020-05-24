@@ -107,6 +107,23 @@ module.exports = {
         })
     },
 
+    editShopStatus : (req, res) => {
+        var shopId = req.params
+        shopService.editStatus(shopId, (err, results) => {
+            if(err) {
+                res.status(500).json({
+                    status: 'error',
+                    error: err,
+                    message: 'Database connection failed'
+                })
+            }
+            return res.status(200).json({
+                status: 'success',
+                message : 'Shop status changed successfully'
+            })
+        })
+    },
+
     editShopProduct: (req, res) => {
         var body = req.body
         var shopId = req.params

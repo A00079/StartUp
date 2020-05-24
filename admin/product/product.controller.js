@@ -1,5 +1,6 @@
 const productService = require('./product.service');
 
+
 module.exports = {
 
     getProducts: (req, res) => {
@@ -42,6 +43,7 @@ module.exports = {
     },
 
     editProduct: (req, res) => {
+
         var body = req.body
         var productId = req.params
         productService.edit(body, productId, (err, results) => {
