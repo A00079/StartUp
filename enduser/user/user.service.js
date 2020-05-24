@@ -1,4 +1,4 @@
-const pool = require('../../../dbconfig/dbconfig');
+const pool = require('../../dbconfig/dbconfig');
 
 module.exports = {
     create : (data, callBack) =>{
@@ -8,15 +8,17 @@ module.exports = {
                 return callBack(err)
             }
             return callBack(null,results);
-        });
+        }); 
     },
-    read : (data, callBack) =>{
-        let sql = 'SELECT email FROM registeredusers WHERE email = ?';
-        pool.query(sql,[data.email],(err,results) =>{
-            if(err){
-                return callBack(err)
-            }
-            return callBack(null,results);
-        });
+
+    get : (callback) => {
+        let sql = 'SELECT * FROM registeredusers';
+        pool.query(sql, (err, results, fields) => {
+           if(err) {
+               return callback(err)
+           } 
+           return callback(null, results)
+        })
     }
+
 };

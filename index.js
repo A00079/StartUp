@@ -1,19 +1,39 @@
 require('dotenv').config();
-const express    = require('express');
+const express = require('express');
 const bodyParser = require('body-parser');
-const cors       = require('cors');
-const app        = express();
-const routes     = require('./router/api/Users/user.routes');
-const path       = require('path');
-const db         = require('./dbconfig/dbconfig');
-const port  = process.env.PORT || 5000;
+const cors = require('cors');
+var fileupload = require('express-fileupload');
 
+const app = express();
+const path = require('path');
+const port = process.env.PORT || 5000;
+
+// Middlewares
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended : false}));
-app.use('/api/users', routes);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(fileupload());
 
-if(process.env.NODE_ENV === 'production'){
+
+// ENDUSER Routes
+app.use('/api/enduser/user', require('./enduser/user/user.routes'));
+
+// SHOP Routes
+app.use('/api/shopuser/auth', require('./shopuser/shopAuth/shopAuth.routes'))
+app.use('/api/shopuser/shop', require('./shopuser/shop/shop.routes'))
+app.use('/api/shopuser/product',  require('./shopuser/product/product.routes'))
+// app.use('/api/shopuser/order', require('./shopuser/order'))
+
+// ADMIN routes
+app.use('/api/adminuser/product', require('./admin/product/product.routes'));
+app.use('/api/adminuser/shop', require('./admin/shop/shop.routes'));
+app.use('/api/adminuser/auth', require('./admin/adminAuth/adminAuth.routes'));
+
+
+
+
+if (process.env.NODE_ENV === 'production') {
 
     app.use(express.static(path.join(__dirname, 'build')));
     app.get(/.*/, (req, res) => {
@@ -21,6 +41,7 @@ if(process.env.NODE_ENV === 'production'){
     });
 }
 
-app.listen(port, () =>{
+
+app.listen(port, () => {
     console.log(`Server Running at ${port}`);
 });
