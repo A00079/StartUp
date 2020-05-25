@@ -2,18 +2,38 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-var fileupload = require('express-fileupload');
-
+var multer = require('multer');
 const app = express();
 const path = require('path');
 const port = process.env.PORT || 5000;
+const shortId = require('shortid')
+
+// Image handler 
+const fileStorage = multer.diskStorage({
+    destination : (req, file, cb) => {
+        cb(null, 'images')
+    },
+    filename : (req, file, cb) => {
+        cb(null, shortId() +'-'+ file.originalname)
+    }
+})
+
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+        cb(null, true)
+    }else {
+        cb(null, false)
+    }
+}
+
 
 // Middlewares
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'uploads')));
-app.use(fileupload());
+// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({storage: fileStorage, fileFilter : fileFilter}).single('image'))
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 
 
 // ENDUSER Routes
