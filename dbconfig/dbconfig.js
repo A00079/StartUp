@@ -5,9 +5,9 @@ var pool = mysql.createPool({
     connectionLimit: 10,
     multipleStatements:true,
     host: 'localhost',
-    user: 'root',
-    password: '', 
-    database: 'safebasket'
+    user: 'id13504834_jamesbond',
+    password: 'J1a2m3e4s5b6o7n8d9@', 
+    database: 'id13504834_safebasket'
 });
 
 
