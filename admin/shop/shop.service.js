@@ -47,11 +47,11 @@ module.exports = {
         })
     },
 
-    addProduct: (data, param, callBack) => {
+    addProduct: (data, param, imageUrl, callBack) => {
 
-        let sql = 'INSERT INTO products (name, price, description, stock, image,unit, shop_id) VALUES (?,?,?,?,?, ?,?)';
+        let sql = 'INSERT INTO products (name, price, description, stock, image,unit, shop_id) VALUES (?,?,?,?,?,?,?)';
 
-        pool.query(sql, [data.name, data.price, data.description, data.stock, data.image, data.unit, param.id], (err, results, fields) => {
+        pool.query(sql, [data.name, data.price, data.description, data.stock, imageUrl, data.unit, param.id], (err, results, fields) => {
             if (err) {
                 return callBack(err)
             }
@@ -102,7 +102,7 @@ module.exports = {
             return callBack(null, results)
         })
     },
-    
+
     editStatus: (param, callBack) => {
         let sql = 'UPDATE shop SET shopStatus = !shopStatus WHERE id = ?'
         pool.query(sql, [param.id], (err, results, fields) => {

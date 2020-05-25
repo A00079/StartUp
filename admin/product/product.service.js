@@ -22,9 +22,9 @@ module.exports = {
         })
     },
 
-    edit : (data, param, callBack) => {
+    edit : (data, param,imageUrl, callBack) => {
         let sql = 'UPDATE products SET name = ?, price = ?, description = ?, stock = ?, image = ? WHERE id = ?'
-        pool.query(sql, [data.name, data.price, data.description, data.stock, data.image,param.id], (err, results, fields) => {
+        pool.query(sql, [data.name, data.price, data.description, data.stock, imageUrl,param.id], (err, results, fields) => {
             if(err) {
                 return callBack(err)
             }
@@ -34,7 +34,7 @@ module.exports = {
 
     delete : (param, callBack) => {
         let sql = 'DELETE FROM products WHERE id = ?'
-        pool.query(sql, param.id, (err, results, fields) => {
+        pool.query(sql, param.id,(err, results, fields) => {
             if(err) {
                 return callBack(err)
             }

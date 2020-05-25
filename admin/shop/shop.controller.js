@@ -20,10 +20,16 @@ module.exports = {
     },
 
     addShopProduct: (req, res) => {
-
+        
+        if(!req.file){
+            res.status(422).json({
+                message : 'No image provided'
+            })
+        }
+        var imageUrl = req.file.path
         var body = req.body
         var shopId = req.params
-        shopService.addProduct(body, shopId,  (err, results) => {
+        shopService.addProduct(body, shopId,imageUrl, (err, results) => {
             if (err) {
                 res.status(500).json({
                     status: 'error',
@@ -89,7 +95,8 @@ module.exports = {
         })
     },
 
-    editShop: (req, res) => {
+    editShop: (req, res) => {   
+
         var body = req.body
         var shopId = req.params
         shopService.edit(body, shopId, (err, results) => {
