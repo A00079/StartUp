@@ -8,6 +8,8 @@ const path = require('path');
 const port = process.env.PORT || 5000;
 const shortId = require('shortid')
 
+
+
 // Image handler 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -38,7 +40,9 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // ENDUSER Routes
 app.use('/api/enduser/user', require('./enduser/user/user.routes'));
+app.use('/api/enduser/product', require('./enduser/product/product.routes'));
 
+// SHOPUSER  routes
 app.use('/api/shopuser/shop', require('./shopuser/shop/shop.routes'))
 app.use('/api/shopuser/product', require('./shopuser/product/product.routes'))
 // app.use('/api/shopuser/order', require('./shopuser/order'))

@@ -1,3 +1,5 @@
 module.exports = {
-    secret:'thisissomerandomsecret'
+    adminsecret:'thisissomerandomsecretforadmin',
+    shopsecret:'thisissomerandomsecretforshopuser',
+    usersecret:'thisissomerandomsecretforadminuser'
 }

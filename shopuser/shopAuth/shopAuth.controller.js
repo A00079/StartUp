@@ -21,7 +21,7 @@ module.exports = {
                 })
             }
             else if (results.length === 1) {
-                var token = jwt.sign({ id : tokenData[0] }, config.secret, {
+                var token = jwt.sign({ id : tokenData[0] }, config.shopsecret, {
                     expiresIn: "24h"
                 })
             }

@@ -72,3 +72,21 @@ ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMES
                     }
                 })
             }
+
+
+            CREATE TABLE `registeredusers` (
+ `id` int(10) NOT NULL AUTO_INCREMENT,
+ `fullName` varchar(255) NOT NULL,
+ `email` varchar(255) NOT NULL,
+ `googleToken` varchar(255) NOT NULL,
+ `fcmToken` varchar(255) DEFAULT NULL,
+ `subscribed` tinyint(4) DEFAULT '0',
+ `phone` varchar(13) NOT NULL,
+ `userPassword` varchar(255) NOT NULL,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=latin1
+
++++++++++++++++++++++++++++++++++++++++
+
+solve the incorrect email while logging in as a user

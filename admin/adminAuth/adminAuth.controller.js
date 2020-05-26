@@ -21,7 +21,7 @@ module.exports = {
             }
             else if (results.length === 1) {
                 // Correct user credentials
-                var token = jwt.sign({ result: results.username }, config.secret, {
+                var token = jwt.sign({ result: results.username }, config.adminsecret, {
                     expiresIn: '24h'
                 })
             }

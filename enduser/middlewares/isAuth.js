@@ -7,7 +7,7 @@ module.exports = {
     if (token) {
       // Remove Bearer from string
       token = token.slice(7);
-      jwt.verify(token, config.shopsecret, (err, decoded) => {
+      jwt.verify(token, config.usersecret, (err, decoded) => {
         if (err) {
           return res.json({
             status: 'error',
