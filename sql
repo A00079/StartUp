@@ -56,6 +56,19 @@ ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMES
 
 ==============================================================
 
+UPDATE usersaddress SET flatNo = ?, complex = ?, landmark = ?, street = ?, area = ?, city = ?, district = ?, state = ? WHERE user_id = ?';
+
+==============================================================
+
+
+
+
+
+
+
+
+
+
             if (!req.files) {
                 res.status(400).json({
                     message: 'no files were uploaded'
@@ -87,6 +100,16 @@ ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMES
  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=latin1
 
+
+
 +++++++++++++++++++++++++++++++++++++++
 
 solve the incorrect email while logging in as a user
+
+Create CRUD for product categories 
+
++++++++++++++++++++++++++++++++++++++++
+    
+
+
+

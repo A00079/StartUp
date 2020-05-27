@@ -109,4 +109,40 @@ module.exports = {
             })
         })
     },
+
+    addPhone: (req, res) => {
+        const body = req.body
+        var userID = req.decoded.id
+        userService.phone(body, userID, (err, results) => {
+            if (err) {
+                return res.status(500).json({
+                    status: 'error',
+                    error: err,
+                    message: 'DataBase Connection Error'
+                });
+            }
+            return res.status(200).json({
+                status: 'success',
+                data: results
+            });
+        })
+    },
+
+    addAddress: (req, res) => {
+        const body = req.body
+        var userID = req.decoded.id
+        userService.address(body, userID, (err, results) => {
+            if (err) {
+                return res.status(500).json({
+                    status: 'error',
+                    error: err,
+                    message: 'DataBase Connection Error'
+                });
+            }
+            return res.status(200).json({
+                status: 'success',
+                data: results
+            });
+        })
+    },
 }

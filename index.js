@@ -40,6 +40,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // ENDUSER Routes
 app.use('/api/enduser/user', require('./enduser/user/user.routes'));
+app.use('/api/enduser/details', require('./enduser/details/details.routes'));
 app.use('/api/enduser/product', require('./enduser/product/product.routes'));
 
 // SHOPUSER  routes
