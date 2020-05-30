@@ -42,31 +42,18 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/enduser/user', require('./enduser/user/user.routes'));
 app.use('/api/enduser/details', require('./enduser/details/details.routes'));
 app.use('/api/enduser/product', require('./enduser/product/product.routes'));
+app.use('/api/enduser/order', require('./enduser/order/order.routes'));
 
 // SHOPUSER  routes
 app.use('/api/shopuser/shop', require('./shopuser/shop/shop.routes'))
 app.use('/api/shopuser/product', require('./shopuser/product/product.routes'))
+app.use('/api/shopuser/auth', require('./shopuser/shopAuth/shopAuth.routes'))
 // app.use('/api/shopuser/order', require('./shopuser/order'))
 
 // ADMIN routes
 app.use('/api/adminuser/product', require('./admin/product/product.routes'));
 app.use('/api/adminuser/shop', require('./admin/shop/shop.routes'));
 app.use('/api/adminuser/auth', require('./admin/adminAuth/adminAuth.routes'));
-
-// error handler
-// app.use((req, res, next) => {
-//     const error  = new Error('Not found')
-//     error.status = 404
-//     next(error)
-// })
-
-// app.use((error, req, res, next)=>{
-//     res.status(error.status || 500)
-//     res.json({
-//         error : error.status || 500,
-//         message : error.message
-//     })
-// })
 
 
 if (process.env.NODE_ENV === 'production') {

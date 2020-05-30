@@ -60,31 +60,12 @@ UPDATE usersaddress SET flatNo = ?, complex = ?, landmark = ?, street = ?, area 
 
 ==============================================================
 
+SELECT registeredusers.fullName, registeredusers.email, registeredusers.phone, usersaddress.flatNo, usersaddress.complex, usersaddress.landmark, usersaddress.street, usersaddress.area, usersaddress.city, products.name, products.price, products.image, orderedproducts.quantity FROM orders INNER JOIN registeredusers ON orders.user_id=registeredusers.id INNER JOIN usersaddress ON registeredusers.id=usersaddress.user_id INNER JOIN orderedproducts ON orderedproducts.order_id=orders.id INNER JOIN products on products.id=orderedproducts.product_id WHERE orders.id = 1
 
 
+==================================================================
 
 
-
-
-
-
-
-            if (!req.files) {
-                res.status(400).json({
-                    message: 'no files were uploaded'
-                })
-            }
-            var file = req.files.uploaded_image
-            var imageName = file.name
-
-            if (file.mimetype == "image/jpeg" || file.mimetype == "image/png" || file.mimetype == "image/gif") {
-
-                file.mv('public/images/upload_images/' + file.name, (err) => {
-                    if (err) {
-                        return res.status(500).json(err);
-                    }
-                })
-            }
 
 
             CREATE TABLE `registeredusers` (
@@ -104,9 +85,14 @@ UPDATE usersaddress SET flatNo = ?, complex = ?, landmark = ?, street = ?, area 
 
 +++++++++++++++++++++++++++++++++++++++
 
+update and delete the images on patch and delete requests for product by admin.
+
 solve the incorrect email while logging in as a user
 
 Create CRUD for product categories 
+
+check for time delay error while setting previous insert ID in ordered products
+
 
 +++++++++++++++++++++++++++++++++++++++
     

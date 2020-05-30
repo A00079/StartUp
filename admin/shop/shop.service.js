@@ -19,7 +19,7 @@ module.exports = {
                             throw err
                         })
                     }
-                    console.log(results.insertId)
+                    
                     let lastId = results.insertId
 
                     var shopaddressQuery = 'INSERT INTO shopaddress (shopNo, complex, landmark, street, area, city, shop_id) VALUES (?,?,?,?,?,?,?)';
