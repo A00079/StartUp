@@ -66,7 +66,6 @@ module.exports = {
                     message: 'Database connection error'
                 })
             }
-            console.log(fields)
             if(results.affectedRows === 0){
                 return res.status(404).json({
                     message : "Product ID not found"

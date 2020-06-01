@@ -8,8 +8,6 @@ const path = require('path');
 const port = process.env.PORT || 5000;
 const shortId = require('shortid')
 
-
-
 // Image handler 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -48,12 +46,13 @@ app.use('/api/enduser/order', require('./enduser/order/order.routes'));
 app.use('/api/shopuser/shop', require('./shopuser/shop/shop.routes'))
 app.use('/api/shopuser/product', require('./shopuser/product/product.routes'))
 app.use('/api/shopuser/auth', require('./shopuser/shopAuth/shopAuth.routes'))
-// app.use('/api/shopuser/order', require('./shopuser/order'))
+app.use('/api/shopuser/order', require('./shopuser/order/order.routes'))
 
 // ADMIN routes
 app.use('/api/adminuser/product', require('./admin/product/product.routes'));
 app.use('/api/adminuser/shop', require('./admin/shop/shop.routes'));
 app.use('/api/adminuser/auth', require('./admin/adminAuth/adminAuth.routes'));
+app.use('/api/adminuser/category', require('./admin/category/category.routes'));
 
 
 if (process.env.NODE_ENV === 'production') {

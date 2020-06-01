@@ -59,8 +59,8 @@ ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMES
 UPDATE usersaddress SET flatNo = ?, complex = ?, landmark = ?, street = ?, area = ?, city = ?, district = ?, state = ? WHERE user_id = ?';
 
 ==============================================================
+SELECT DISTINCT registeredusers.fullName, registeredusers.email, registeredusers.phone, usersaddress.flatNo, usersaddress.complex, usersaddress.landmark, usersaddress.street, usersaddress.area, usersaddress.city, products.name, products.price, products.image, orderedproducts.quantity FROM orders INNER JOIN registeredusers ON orders.user_id=registeredusers.id INNER JOIN usersaddress ON registeredusers.id=usersaddress.user_id INNER JOIN orderedproducts ON orderedproducts.order_id=orders.id INNER JOIN products on products.id=orderedproducts.product_id INNER JOIN shop ON products.shop_id = shop.id WHERE shop.id = 1
 
-SELECT registeredusers.fullName, registeredusers.email, registeredusers.phone, usersaddress.flatNo, usersaddress.complex, usersaddress.landmark, usersaddress.street, usersaddress.area, usersaddress.city, products.name, products.price, products.image, orderedproducts.quantity FROM orders INNER JOIN registeredusers ON orders.user_id=registeredusers.id INNER JOIN usersaddress ON registeredusers.id=usersaddress.user_id INNER JOIN orderedproducts ON orderedproducts.order_id=orders.id INNER JOIN products on products.id=orderedproducts.product_id WHERE orders.id = 1
 
 
 ==================================================================
@@ -93,6 +93,9 @@ Create CRUD for product categories
 
 check for time delay error while setting previous insert ID in ordered products
 
+improper orders array 
+
+check whole ordering system and refactor datastructure
 
 +++++++++++++++++++++++++++++++++++++++
     

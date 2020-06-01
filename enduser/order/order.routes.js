@@ -8,5 +8,4 @@ router.post('/createorder',isAuth, orderController.createOrder)
 // GET rouets
 router.get('/getorders',isAuth, orderController.getAllOrders)
 
-
 module.exports = router

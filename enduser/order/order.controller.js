@@ -15,8 +15,8 @@ module.exports = {
         }
 
         var userID = req.decoded.id
-        
-        orderService.create(userID, mainData,products, (err, results) => {
+
+        orderService.create(userID, mainData, products, (err, results) => {
             if (err) {
                 return res.status(500).json({
                     status: 'error',
@@ -31,7 +31,7 @@ module.exports = {
         })
     },
 
-    getAllOrders : (req, res) => {
+    getAllOrders: (req, res) => {
         let userID = req.decoded.id
         orderService.getOrders(userID, (err, results) => {
             if (err) {
@@ -41,10 +41,14 @@ module.exports = {
                     message: 'Database connection error'
                 })
             }
+
             return res.status(200).json({
                 status: 'Success',
                 results: results.length,
-                data : results
+                data:
+                {
+                    orders: results
+                }
             })
         })
     }

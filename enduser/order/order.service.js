@@ -52,7 +52,7 @@ module.exports = {
     },
 
     getOrders:(userID, callBack) => {
-        let sql = 'SELECT orderedproducts.order_id, products.image, products.name, products.price, orderedproducts.quantity, orders.purAmt, orders.created_at, shop.name FROM orderedproducts INNER JOIN products on orderedproducts.product_id = products.id INNER JOIN orders ON orders.id = orderedproducts.order_id INNER JOIN shop ON shop.id = products.shop_id WHERE orders.user_id = ?'
+        let sql = 'SELECT orderedproducts.order_id, products.image, products.name AS productName , products.price, orderedproducts.quantity, orders.purAmt, orders.created_at, shop.name AS shopName FROM orderedproducts INNER JOIN products on orderedproducts.product_id = products.id INNER JOIN orders ON orders.id = orderedproducts.order_id INNER JOIN shop ON shop.id = products.shop_id WHERE orders.user_id = ?'
 
         let insertSql = [userID]
 
@@ -63,5 +63,4 @@ module.exports = {
             return callBack(null, results)
         })
     }
-
 }
