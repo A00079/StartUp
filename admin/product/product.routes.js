@@ -12,7 +12,7 @@ router.get('/product/:id', productController.getProduct)
 router.patch('/product/:id',isAuth, productValidationRules(), validate, productController.editProduct)
 
 // DELETE routes
-router.delete('/product/:id', isAuth, productController.deleteProduct)
+router.patch('/inactive/:id', isAuth, productController.inactiveProduct)
 
 
 module.exports = router;

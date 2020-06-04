@@ -3,7 +3,7 @@ const pool = require('../../dbconfig/dbconfig')
 module.exports = {
 
     getProducts: (userID, callBack) => {
-        var sql = 'SELECT * FROM products WHERE shop_id = ?'
+        var sql = 'SELECT * FROM products WHERE isActive = 1 AND shop_id = ?'
 
         var insertSql = [userID]
 

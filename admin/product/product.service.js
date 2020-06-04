@@ -32,8 +32,8 @@ module.exports = {
         })
     },
 
-    delete : (param, callBack) => {
-        let sql = 'DELETE FROM products WHERE id = ?'
+    inactive : (param, callBack) => {
+        let sql = 'UPDATE products SET isActive = 0 WHERE id = ?'
         pool.query(sql, param.id,(err, results, fields) => {
             if(err) {
                 return callBack(err)

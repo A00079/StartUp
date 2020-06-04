@@ -61,11 +61,29 @@ UPDATE usersaddress SET flatNo = ?, complex = ?, landmark = ?, street = ?, area 
 ==============================================================
 SELECT DISTINCT registeredusers.fullName, registeredusers.email, registeredusers.phone, usersaddress.flatNo, usersaddress.complex, usersaddress.landmark, usersaddress.street, usersaddress.area, usersaddress.city, products.name, products.price, products.image, orderedproducts.quantity FROM orders INNER JOIN registeredusers ON orders.user_id=registeredusers.id INNER JOIN usersaddress ON registeredusers.id=usersaddress.user_id INNER JOIN orderedproducts ON orderedproducts.order_id=orders.id INNER JOIN products on products.id=orderedproducts.product_id INNER JOIN shop ON products.shop_id = shop.id WHERE shop.id = 1
 
-
-
 ==================================================================
 
+vincentys formula for distance calculation between two points
 
+SELECT 
+(ATAN(
+    SQRT(
+        POW(COS(RADIANS(distance.lat)) * SIN(RADIANS(distance.lng) - RADIANS(72.811171)), 2) +
+        POW(COS(RADIANS(19.424383)) * SIN(RADIANS(distance.lat)) - 
+       SIN(RADIANS(19.424383)) * cos(RADIANS(distance.lat)) * cos(RADIANS(distance.lng) - RADIANS(72.811171)), 2)
+    )
+    ,
+    SIN(RADIANS(19.424383)) * 
+    SIN(RADIANS(distance.lat)) + 
+    COS(RADIANS(19.424383)) * 
+    COS(RADIANS(distance.lat)) * 
+    COS(RADIANS(distance.lng) - RADIANS(72.811171))
+ ) * 6371000) as distance,
+distance.name
+FROM distance
+ORDER BY distance ASC
+
+==================================================================
 
 
             CREATE TABLE `registeredusers` (

@@ -13,6 +13,7 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
+                results : results.length,
                 data : results
             })
         })
