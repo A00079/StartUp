@@ -19,7 +19,7 @@ module.exports = {
         }
       });
     } else {
-      return res.json({
+      return res.status(401).json({
         status: 'error',
         message: "Access Denied! Unauthorized User"
       });

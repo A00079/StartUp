@@ -16,9 +16,9 @@ module.exports = {
     },
 
     edit: (data, param, userID, callBack) => {
-        var sql = 'UPDATE products SET price = ?, unit = ? WHERE id = ? and shop_id = ?'
+        var sql = 'UPDATE products SET price = ? WHERE id = ? and shop_id = ?'
 
-        var insertSql = [data.price, data.unit, param.id, userID]
+        var insertSql = [data.price, param.id, userID]
 
         pool.query(sql, insertSql, (err, results) => {
             if (err) {

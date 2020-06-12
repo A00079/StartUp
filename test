@@ -1,0 +1,30 @@
+const data = { orders: [  { "orderID": 1, "fullName": "xyz", "email": "xyz@gmail.com", "phone": "12345", "flatNo": "A-5", "complex": "tara tra", "landmark": null, "street": null, "area": "", "city": "", "productID": 2, "name": "curd", "price": 52, "image": "curd.png", "quantity": 1 }, { "orderID": 1, "fullName": "xyz", "email": "xyz@gmail.com", "phone": "12345", "flatNo": "A-5", "complex": "tara tra", "landmark": null, "street": null, "area": "", "city": "", "productID": 1, "name": "lassi", "price": 65, "image": "images\\rtoRAOwj4-conn.PNG", "quantity": 1 }, { "orderID": 2, "fullName": "velocity", "email": "velocity@gmail.com", "phone": "999999", "flatNo": "b-863", "complex": "tara tra", "landmark": "kaskd", "street": "asdasd", "area": "rob city", "city": "asda", "productID": 1, "name": "lassi", "price": 65, "image": "images\\rtoRAOwj4-conn.PNG", "quantity": 3 } ] }
+
+const { pipe, assign, reduce, get, pick, omit } = rubico
+
+const productKeys = ['productID', 'name', 'price', 'image', 'quantity']
+
+const addOrderToMap = (m, order) => {
+  if (m.has(order.orderID)) {
+    m.get(order.orderID).products.push(pick(productKeys)(order))
+  } else {
+    m.set(order.orderID, {
+      ...omit(productKeys)(order),
+      products: [pick(productKeys)(order)],
+    })
+  }
+  return m
+}
+
+const groupedByOrderID = assign({
+  orders: pipe([ // assign orders key
+    get('orders'), // data => orders
+    reduce(addOrderToMap, new Map()), // orders => Map { orderID -> orderWithProducts }
+    m => m.values(), // Map { orderID -> orderWithProducts } -> iterator { orderWithProducts }
+    Array.from, // iterator { orderWithProducts } -> [orderWithProducts]
+  ]),
+})(data)
+
+console.log(groupedByOrderID)
+
+<script src="https://unpkg.com/rubico/index.js"></script>

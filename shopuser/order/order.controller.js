@@ -1,4 +1,5 @@
 const orderService = require('./order.service')
+const { Result } = require('express-validator')
 
 module.exports = {
     getAllOrders: (req, res) => {
@@ -12,25 +13,18 @@ module.exports = {
                 })
             }
 
-            // var jsonData
-            // var finalData
-            // var ordersData = []
-            // var productsData = []
-            // results.forEach(element => {
-            //     jsonData =  JSON.stringify(element)
-            //     finalData =  JSON.parse(jsonData)
-            //      productsData.push({productName :  finalData.name, productPrice : finalData.price})
-            //      ordersData.push(productsData)
-            // });
+            var data = results
 
-            // console.log(ordersData)
+            var result = Object.values(data.reduce((acc, { productID, name, price, image, quantity, ...rest }) => {
+                acc[rest.orderID] = acc[rest.orderID] || { ...rest, products: [] };
+                acc[rest.orderID].products.push({ productID, name, price, image, quantity });
+                return acc;
+            }, {}));
 
             return res.status(200).json({
                 status: 'success',
                 results: results.length,
-                data: {
-                    orders: results
-                }
+                orders: result
             })
         })
     },
@@ -45,9 +39,9 @@ module.exports = {
                     message: 'Database connection failed'
                 })
             }
-            if(results.affectedRows === 0) {
+            if (results.affectedRows === 0) {
                 return res.status(404).json({
-                    message : 'order not found'
+                    message: 'order not found'
                 })
             }
             return res.status(200).json({
@@ -67,9 +61,9 @@ module.exports = {
                     message: 'Database connection failed'
                 })
             }
-            if(results.affectedRows === 0) {
+            if (results.affectedRows === 0) {
                 return res.status(404).json({
-                    message : 'order not found'
+                    message: 'order not found'
                 })
             }
             return res.status(200).json({
