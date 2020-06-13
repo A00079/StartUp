@@ -23,7 +23,7 @@ module.exports = {
 
             return res.status(200).json({
                 status: 'success',
-                results: results.length,
+                results: result.length,
                 orders: result
             })
         })
@@ -53,7 +53,7 @@ module.exports = {
     },
     orderDelivered: (req, res) => {
         var param = req.params.id
-        orderService.cancle(param, (err, results) => {
+        orderService.delivered(param, (err, results) => {
             if (err) {
                 return res.status(500).json({
                     status: 'error',
