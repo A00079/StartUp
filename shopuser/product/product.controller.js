@@ -19,6 +19,24 @@ module.exports = {
         })
     },
 
+    getSingleProduct : (req, res) => {
+        var productId = req.params
+        var userID = req.decoded.id
+        productService.getSingleProduct(productId, userID, (err, results) => {
+            if (err) {
+                return res.status(500).json({
+                    status: 'error',
+                    error: err,
+                    message: 'Database connection error'
+                })
+            }
+            return res.status(200).json({
+                status: 'success',
+                product : results
+            })
+        })
+    },
+
     editProduct: (req, res) => {
         var body = req.body
         var productId = req.params

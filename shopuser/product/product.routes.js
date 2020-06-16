@@ -5,6 +5,7 @@ const { productValidationRules, validate } = require('../../validator')
 
 // GET routes
 router.get('/products', isAuth, productController.getAllProducts)
+router.get('/product/:id', isAuth, productController.getSingleProduct)
 
 // PATCH routes
 router.patch('/product/:id', isAuth, productValidationRules(), validate, productController.editProduct)

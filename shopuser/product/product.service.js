@@ -15,6 +15,19 @@ module.exports = {
         })
     },
 
+    getSingleProduct: (param, userID, callBack) => {
+        var sql = 'SELECT products.*, productsizes.sprice, productsizes.mprice, productsizes.lprice FROM products LEFT JOIN productsizes ON productsizes.product_id = products.id WHERE isActive = 1 AND products.id = ? AND shop_id = ?'
+
+        var insertSql = [param.id, userID]
+
+        pool.query(sql, insertSql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
     edit: (data, param, userID, callBack) => {
         var sql = 'UPDATE products SET price = ? WHERE id = ? and shop_id = ?'
 

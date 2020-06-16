@@ -29,6 +29,33 @@ module.exports = {
         })
     },
 
+    getSingleOrder: (req, res) => {
+        var param = req.params.id
+        var shopID = req.decoded.id
+        orderService.getOrder(param, shopID, (err, results) => {
+            if (err) {
+                return res.status(500).json({
+                    status: 'error',
+                    error: err,
+                    message: 'Database connection failed'
+                })
+            }
+
+            var data = results
+
+            var result = Object.values(data.reduce((acc, { productID, name, price, image, quantity, ...rest }) => {
+                acc[rest.orderID] = acc[rest.orderID] || { ...rest, products: [] };
+                acc[rest.orderID].products.push({ productID, name, price, image, quantity });
+                return acc;
+            }, {}));
+
+            return res.status(200).json({
+                status: 'success',
+                order: result
+            })
+        })
+    },
+
     cancleOrder: (req, res) => {
         var param = req.params.id
         orderService.cancle(param, (err, results) => {
@@ -47,7 +74,6 @@ module.exports = {
             return res.status(200).json({
                 status: 'success',
                 message: 'Order cancelled',
-                results: results
             })
         })
     },
@@ -69,7 +95,6 @@ module.exports = {
             return res.status(200).json({
                 status: 'success',
                 message: 'Order Delivered',
-                results: results
             })
         })
     },

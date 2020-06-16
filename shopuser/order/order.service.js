@@ -2,7 +2,7 @@ const pool = require('../../dbconfig/dbconfig')
 
 module.exports = {
     getOrders: (shopID, callBack) => {
-        let sql = 'SELECT DISTINCT orders.id as orderID, orders.orderStatus, orders.created_at as orderDate, registeredusers.fullName, registeredusers.email, registeredusers.phone, usersaddress.flatNo, usersaddress.complex, usersaddress.landmark, usersaddress.street, usersaddress.area, usersaddress.city,products.id as productID, products.name, products.price, products.image, orderedproducts.quantity FROM orders INNER JOIN registeredusers ON orders.user_id=registeredusers.id INNER JOIN usersaddress ON registeredusers.id=usersaddress.user_id INNER JOIN orderedproducts ON orderedproducts.order_id=orders.id INNER JOIN products on products.id=orderedproducts.product_id INNER JOIN shop ON products.shop_id = shop.id WHERE shop.id = ?'
+        let sql = 'SELECT DISTINCT orders.id as orderID, orders.orderStatus, orders.purAmt, orders.created_at as orderDate, registeredusers.fullName, registeredusers.email, registeredusers.phone, usersaddress.flatNo, usersaddress.complex, usersaddress.landmark, usersaddress.street, usersaddress.area, usersaddress.city,products.id as productID, products.name, products.price, products.image, orderedproducts.quantity FROM orders INNER JOIN registeredusers ON orders.user_id=registeredusers.id INNER JOIN usersaddress ON registeredusers.id=usersaddress.user_id INNER JOIN orderedproducts ON orderedproducts.order_id=orders.id INNER JOIN products on products.id=orderedproducts.product_id INNER JOIN shop ON products.shop_id = shop.id WHERE shop.id = ?'
 
         let insertSql = [shopID]
 
@@ -14,8 +14,21 @@ module.exports = {
         })
     },
 
-    cancle: (param, callBack) => {
-        let sql = 'UPDATE orders SET orderStatus = 2 WHERE orders.id = ?'
+    getOrder: (shopID, param, callBack) => {
+        let sql = 'SELECT DISTINCT orders.id as orderID, orders.orderStatus, orders.purAmt, orders.created_at as orderDate, registeredusers.fullName, registeredusers.email, registeredusers.phone, usersaddress.flatNo, usersaddress.complex, usersaddress.landmark, usersaddress.street, usersaddress.area, usersaddress.city,products.id as productID, products.name, products.price, products.image, orderedproducts.quantity FROM orders INNER JOIN registeredusers ON orders.user_id=registeredusers.id INNER JOIN usersaddress ON registeredusers.id=usersaddress.user_id INNER JOIN orderedproducts ON orderedproducts.order_id=orders.id INNER JOIN products on products.id=orderedproducts.product_id INNER JOIN shop ON products.shop_id = shop.id WHERE shop.id = ? and orders.id = ?'
+
+        let insertSql = [param, shopID]
+
+        pool.query(sql, insertSql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
+    cancle: ( param, callBack) => {
+        let sql = 'UPDATE orders SET orderStatus = 2 WHERE id = ?'
 
         let insertSql = [param]
 
@@ -27,8 +40,8 @@ module.exports = {
         })
     },
 
-    delivered: (param, callBack) => {
-        let sql = 'UPDATE orders SET orderStatus = 1 WHERE orders.id = ?'
+    delivered: ( param, callBack) => {
+        let sql = 'UPDATE orders SET orderStatus = 1 WHERE id = ?'
 
         let insertSql = [param]
 

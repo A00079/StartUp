@@ -29,16 +29,47 @@ module.exports = {
     },
 
     toggleStatus: (userID, callBack) => {
-        var sql = 'UPDATE shop SET shopStatus = !shopStatus WHERE shop.id = ?'
+        pool.getConnection((err, connection) => {
+            connection.beginTransaction(err => {
+                if (err) {
+                    throw err
+                }
 
-        var insertSql = [userID]
-
-        pool.query(sql, insertSql, (err, results) => {
-            if (err) {
-                return callBack(err)
-            }
-            return callBack(null, results)
+                var sql = 'UPDATE shop SET shopStatus = !shopStatus WHERE shop.id = ?'
+                var insertSql = [userID]
+                connection.query(sql, insertSql, (err, results) => {
+                    if (err) {
+                        return connection.rollback(_ => {
+                            throw err
+                        })
+                    }
+                    var sqlStatus = 'SELECT shopStatus FROM shop WHERE shop.id = ?'
+                    var insertSqlStatus = [userID]
+                    connection.query(sqlStatus, insertSqlStatus, (err, results) => {
+                        if (err) {
+                            return connection.rollback(_ => {
+                                throw err
+                            })
+                        }
+                        connection.commit(err => {
+                            if (err) {
+                                connection.rollback(_ => {
+                                    throw err
+                                })
+                            }
+                            connection.release()
+                            callBack(null, results)
+                        })
+                    })
+                })
+            })
         })
+        // pool.query(sql, insertSql, (err, results) => {
+        //     if (err) {
+        //         return callBack(err)
+        //     }
+        //     return callBack(null, results)
+        // })
     }
 
 

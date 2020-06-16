@@ -4,6 +4,7 @@ const { isAuth } = require('../middlewares/isAuth')
 
 // GET routes
 router.get('/orders',isAuth, orderController.getAllOrders)
+router.get('/order/:id',isAuth, orderController.getSingleOrder)
 
 // PATCH
 router.patch('/cancleorder/:id', isAuth, orderController.cancleOrder)
