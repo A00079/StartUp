@@ -15,6 +15,32 @@ module.exports = {
         })
     },
 
+    inActiveProducts: (userID, callBack) => {
+        var sql = 'SELECT * FROM products WHERE isActive = 0 AND shop_id = ?'
+
+        var insertSql = [userID]
+
+        pool.query(sql, insertSql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
+    product: (data, userID, callBack) => {
+        var sql = 'INSERT INTO productsbyshop (shop_id, productName, productPrice, unit_id) VALUES (?,?,?,?)'
+
+        var insertSql = [userID, data.productName, data.productPrice, data.unitID ]
+
+        pool.query(sql, insertSql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
     getSingleProduct: (param, userID, callBack) => {
         var sql = 'SELECT products.*, productsizes.sprice, productsizes.mprice, productsizes.lprice FROM products LEFT JOIN productsizes ON productsizes.product_id = products.id WHERE isActive = 1 AND products.id = ? AND shop_id = ?'
 
@@ -41,8 +67,34 @@ module.exports = {
         })
     },
 
-    delete: (param, userID, callBack) => {
-        var sql = 'DELETE FROM products WHERE id = ? and shop_id = ?'
+    editP: (data, param, callBack) => {
+        var sql = 'UPDATE productsizes SET sprice = ?, mprice = ?, lprice = ? WHERE product_id = ?'
+
+        var insertSql = [data.sprice, data.mprice, data.lprice, param.id]
+
+        pool.query(sql, insertSql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
+    inActive: (param, userID, callBack) => {
+        var sql = 'UPDATE PRODUCTS SET isActive = 0 WHERE id = ? and shop_id = ?'
+
+        var insertSql = [param.id, userID]
+
+        pool.query(sql, insertSql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
+    activate: (param, userID, callBack) => {
+        var sql = 'UPDATE PRODUCTS SET isActive = 1 WHERE id = ? and shop_id = ?'
 
         var insertSql = [param.id, userID]
 
@@ -58,6 +110,45 @@ module.exports = {
         var sql = 'UPDATE products SET stock = !stock WHERE id = ? and shop_id = ?'
 
         var insertSql = [param.id, userID]
+
+        pool.query(sql, insertSql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
+    toggleSStock: (param, callBack) => {
+        var sql = 'UPDATE productsizes SET sstock = !sstock WHERE product_id = ?'
+
+        var insertSql = [param.id]
+
+        pool.query(sql, insertSql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
+    toggleMStock: (param, callBack) => {
+        var sql = 'UPDATE productsizes SET mstock = !mstock WHERE product_id = ?'
+
+        var insertSql = [param.id]
+
+        pool.query(sql, insertSql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
+    toggleLStock: (param, callBack) => {
+        var sql = 'UPDATE productsizes SET lstock = !lstock WHERE product_id = ?'
+
+        var insertSql = [param.id]
 
         pool.query(sql, insertSql, (err, results) => {
             if (err) {
