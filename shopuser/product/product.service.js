@@ -15,6 +15,17 @@ module.exports = {
         })
     },
 
+    units: (callBack) => {
+        var sql = 'SELECT * FROM units'
+
+        pool.query(sql, (err, results) => {
+            if (err) {
+                return callBack(err)
+            }
+            return callBack(null, results)
+        })
+    },
+
     inActiveProducts: (userID, callBack) => {
         var sql = 'SELECT * FROM products WHERE isActive = 0 AND shop_id = ?'
 
@@ -31,7 +42,7 @@ module.exports = {
     product: (data, userID, callBack) => {
         var sql = 'INSERT INTO productsbyshop (shop_id, productName, productPrice, unit_id) VALUES (?,?,?,?)'
 
-        var insertSql = [userID, data.productName, data.productPrice, data.unitID ]
+        var insertSql = [userID, data.productName, data.productPrice, data.unitID]
 
         pool.query(sql, insertSql, (err, results) => {
             if (err) {
@@ -55,28 +66,78 @@ module.exports = {
     },
 
     edit: (data, param, userID, callBack) => {
-        var sql = 'UPDATE products SET price = ? WHERE id = ? and shop_id = ?'
-
-        var insertSql = [data.price, param.id, userID]
-
-        pool.query(sql, insertSql, (err, results) => {
-            if (err) {
-                return callBack(err)
-            }
-            return callBack(null, results)
+        pool.getConnection((err, connection) => {
+            connection.beginTransaction(err => {
+                if (err) {
+                    throw err
+                }
+                var sql = 'UPDATE products SET price = ? WHERE id = ? and shop_id = ?'
+                var insertSql = [data.price, param.id, userID]
+                connection.query(sql, insertSql, (err, results) => {
+                    if (err) {
+                        return connection.rollback(_ => {
+                            throw err
+                        })
+                    }
+                    var sqlGet = 'SELECT products.*, productsizes.sprice, productsizes.mprice, productsizes.lprice FROM products LEFT JOIN productsizes ON productsizes.product_id = products.id WHERE isActive = 1 AND products.id = ? AND shop_id = ?'
+                    var insertSqlGet = [param.id, userID]
+                    connection.query(sqlGet, insertSqlGet, (err, results) => {
+                        if (err) {
+                            return connection.rollback(_ => {
+                                throw err
+                            })
+                        }
+                        connection.commit(err => {
+                            if (err) {
+                                connection.rollback(_ => {
+                                    throw err
+                                })
+                            }
+                            connection.release()
+                            callBack(null, results)
+                        })
+                    })
+                })
+            })
         })
     },
 
     editP: (data, param, callBack) => {
-        var sql = 'UPDATE productsizes SET sprice = ?, mprice = ?, lprice = ? WHERE product_id = ?'
+        pool.getConnection((err, connection) => {
+            connection.beginTransaction(err => {
+                if (err) {
+                    throw err
+                }
+                var sql = 'UPDATE productsizes SET sprice = ?, mprice = ?, lprice = ? WHERE product_id = ?'
 
-        var insertSql = [data.sprice, data.mprice, data.lprice, param.id]
+                var insertSql = [data.sprice, data.mprice, data.lprice, param.id]
 
-        pool.query(sql, insertSql, (err, results) => {
-            if (err) {
-                return callBack(err)
-            }
-            return callBack(null, results)
+                connection.query(sql, insertSql, (err, results) => {
+                    if (err) {
+                        return connection.rollback(_ => {
+                            throw err
+                        })
+                    }
+                    var sqlGet = 'SELECT products.*, productsizes.sprice, productsizes.mprice, productsizes.lprice FROM products LEFT JOIN productsizes ON productsizes.product_id = products.id WHERE isActive = 1 AND products.id = ?'
+                    var insertSqlGet = [param.id]
+                    connection.query(sqlGet, insertSqlGet, (err, results) => {
+                        if (err) {
+                            return connection.rollback(_ => {
+                                throw err
+                            })
+                        }
+                        connection.commit(err => {
+                            if (err) {
+                                connection.rollback(_ => {
+                                    throw err
+                                })
+                            }
+                            connection.release()
+                            callBack(null, results)
+                        })
+                    })
+                })
+            })
         })
     },
 

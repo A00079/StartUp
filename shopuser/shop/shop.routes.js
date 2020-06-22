@@ -6,8 +6,10 @@ const { shopValidationRules, validate } = require('../../validator')
 // GET routes
 router.get('/details', isAuth, shopController.shopProfile)
 
+// POST routes
+router.post('/details', isAuth, shopValidationRules(), validate, shopController.shopProfileChange)
+
 // PATCH routes
-router.patch('/details', isAuth, shopValidationRules(), validate, shopController.editShopDetails)
 router.patch('/status', isAuth, shopController.editShopStatus)
 
 

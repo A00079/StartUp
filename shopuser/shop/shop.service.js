@@ -15,10 +15,10 @@ module.exports = {
 
     },
 
-    editDetails: (data, userID, callBack) => {
-        var sql = 'UPDATE shopaddress,shop SET shop.name = ?, shop.phone = ?, shopaddress.shopNo = ?, shopaddress.complex = ?, shopaddress.landmark = ?, shopaddress.street = ?, shopaddress.area = ?, shopaddress.city = ? WHERE shop.id = shopaddress.shop_id AND shop.id = ?'
+    profileChange: (data, userID, callBack) => {
+        var sql = 'INSERT INTO shopprofilechange (shop_id, name, phone, shopNo, complex, landmark, street, area, city) VALUES (?,?,?,?,?,?,?,?,?)'
 
-        var insertSql = [data.name, data.phone, data.shopNo, data.complex, data.landmark, data.street, data.area, data.city, userID]
+        var insertSql = [userID, data.name, data.phone, data.shopNo, data.complex, data.landmark, data.street, data.area, data.city, ]
 
         pool.query(sql, insertSql, (err, results) => {
             if (err) {
@@ -64,12 +64,6 @@ module.exports = {
                 })
             })
         })
-        // pool.query(sql, insertSql, (err, results) => {
-        //     if (err) {
-        //         return callBack(err)
-        //     }
-        //     return callBack(null, results)
-        // })
     }
 
 

@@ -7,6 +7,7 @@ const { productValidationRules, validate } = require('../../validator')
 router.get('/products', isAuth, productController.getAllProducts)
 router.get('/product/:id', isAuth, productController.getSingleProduct)
 router.get('/inactive', isAuth, productController.getInActiveProducts)
+router.get('/units', isAuth, productController.getUnits)
 
 // POST routes
 router.post('/product', isAuth, productController.addProduct)

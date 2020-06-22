@@ -1,7 +1,7 @@
 const productService = require('./product.service')
 
 module.exports = {
-    getAllProducts : (req, res) => {
+    getAllProducts: (req, res) => {
         var userID = req.decoded.id
         productService.getProducts(userID, (err, results) => {
             if (err) {
@@ -13,13 +13,13 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                results : results.length,
-                data : results
+                results: results.length,
+                data: results
             })
         })
     },
 
-    getInActiveProducts : (req, res) => {
+    getInActiveProducts: (req, res) => {
         var userID = req.decoded.id
         productService.inActiveProducts(userID, (err, results) => {
             if (err) {
@@ -31,16 +31,16 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                results : results.length,
-                data : results
+                results: results.length,
+                data: results
             })
         })
     },
 
-    addProduct : (req, res) => {
+    addProduct: (req, res) => {
         var body = req.body
         var userID = req.decoded.id
-        productService.product(body,userID, (err, results) => {
+        productService.product(body, userID, (err, results) => {
             if (err) {
                 return res.status(500).json({
                     status: 'error',
@@ -50,12 +50,12 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                message : "Product added"
+                message: "Product added"
             })
         })
     },
 
-    getSingleProduct : (req, res) => {
+    getSingleProduct: (req, res) => {
         var productId = req.params
         var userID = req.decoded.id
         productService.getSingleProduct(productId, userID, (err, results) => {
@@ -68,7 +68,23 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                product : results
+                product: results
+            })
+        })
+    },
+
+    getUnits: (req, res) => {
+        productService.units((err, results) => {
+            if (err) {
+                return res.status(500).json({
+                    status: 'error',
+                    error: err,
+                    message: 'Database connection error'
+                })
+            }
+            return res.status(200).json({
+                status: 'success',
+                units: results
             })
         })
     },
@@ -87,7 +103,8 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                message : 'Product updated !'
+                message: 'Product updated !',
+                result: results
             })
         })
     },
@@ -105,12 +122,13 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                message : 'Product updated !'
+                message: 'Product updated !',
+                result : results
             })
         })
     },
 
-    inActivateProduct : (req, res) => {
+    inActivateProduct: (req, res) => {
         var productId = req.params
         var userID = req.decoded.id
         productService.inActive(productId, userID, (err, results) => {
@@ -123,13 +141,13 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                message : 'Product Inactivated !',
-                data : results
+                message: 'Product Inactivated !',
+                data: results
             })
         })
     },
 
-    activateProduct : (req, res) => {
+    activateProduct: (req, res) => {
         var productId = req.params
         var userID = req.decoded.id
         productService.activate(productId, userID, (err, results) => {
@@ -142,8 +160,8 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                message : 'Product Inactivated !',
-                data : results
+                message: 'Product Inactivated !',
+                data: results
             })
         })
     },
@@ -161,15 +179,15 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                message : 'stock toggled !',
-                data : results
+                message: 'stock toggled !',
+                data: results
             })
         })
     },
 
     toggleProductSStock: (req, res) => {
         var productId = req.params
-        productService.toggleSStock(productId,(err, results) => {
+        productService.toggleSStock(productId, (err, results) => {
             if (err) {
                 return res.status(500).json({
                     status: 'error',
@@ -179,15 +197,15 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                message : 'Small product stock toggled.',
-                data : results
+                message: 'Small product stock toggled.',
+                data: results
             })
         })
     },
 
     toggleProductMStock: (req, res) => {
         var productId = req.params
-        productService.toggleMStock(productId,(err, results) => {
+        productService.toggleMStock(productId, (err, results) => {
             if (err) {
                 return res.status(500).json({
                     status: 'error',
@@ -197,15 +215,15 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                message : 'Medium product stock toggled.',
-                data : results
+                message: 'Medium product stock toggled.',
+                data: results
             })
         })
     },
 
     toggleProductLStock: (req, res) => {
         var productId = req.params
-        productService.toggleLStock(productId,(err, results) => {
+        productService.toggleLStock(productId, (err, results) => {
             if (err) {
                 return res.status(500).json({
                     status: 'error',
@@ -215,8 +233,8 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                message : 'Large product stock toggled.',
-                data : results
+                message: 'Large product stock toggled.',
+                data: results
             })
         })
     },
@@ -234,8 +252,8 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                message : 'Low stock toggled !',
-                data : results
+                message: 'Low stock toggled !',
+                data: results
             })
         })
     }

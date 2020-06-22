@@ -18,10 +18,10 @@ module.exports = {
         })
     },
 
-    editShopDetails: (req, res) => {
+    shopProfileChange: (req, res) => {
         var body = req.body
         var userID = req.decoded.id
-        shopService.editDetails(body, userID, (err, results) => {
+        shopService.profileChange(body, userID, (err, results) => {
             if (err) {
                 return res.status(500).json({
                     status: 'error',
@@ -31,7 +31,7 @@ module.exports = {
             }
             return res.status(200).json({
                 status: 'success',
-                data : results
+                message : 'Update profile request sent'
             })
         })
     },
