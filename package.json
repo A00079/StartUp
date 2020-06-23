@@ -27,6 +27,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-google-plus-token": "^2.1.0",
     "shortid": "^2.2.15",
+    "socket.io": "^2.3.0",
     "then-busboy": "^4.4.0",
     "unique-random": "^2.1.0"
   }

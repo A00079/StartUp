@@ -1,8 +1,8 @@
 const orderService = require('./order.service')
+const io = require('../../socket')
 
 module.exports = {
     createOrder: (req, res) => {
-
         var products = req.body.products
         var mainData = {
             purAmt: req.body.purAmt,
@@ -24,6 +24,7 @@ module.exports = {
                     message: 'Database connection error'
                 })
             }
+            io.getIO().emit('orders', results)
             return res.status(200).json({
                 status: 'Success',
                 message: 'Order created'
@@ -41,7 +42,6 @@ module.exports = {
                     message: 'Database connection error'
                 })
             }
-
             return res.status(200).json({
                 status: 'Success',
                 results: results.length,

@@ -168,15 +168,41 @@ module.exports = {
     },
 
     toggleStock: (param, userID, callBack) => {
-        var sql = 'UPDATE products SET stock = !stock WHERE id = ? and shop_id = ?'
+        pool.getConnection((err, connection) => {
+            connection.beginTransaction(err => {
+                if (err) {
+                    throw err
+                }
+                var sql = 'UPDATE products SET stock = !stock WHERE id = ? and shop_id = ?'
 
-        var insertSql = [param.id, userID]
+                var insertSql = [param.id, userID]
 
-        pool.query(sql, insertSql, (err, results) => {
-            if (err) {
-                return callBack(err)
-            }
-            return callBack(null, results)
+                connection.query(sql, insertSql, (err, results) => {
+                    if (err) {
+                        return connection.rollback(_ => {
+                            throw err
+                        })
+                    }
+                    var sqlGet = 'SELECT stock FROM products WHERE id = ? AND shop_id = ?'
+                    var insertSqlGet = [param.id, userID]
+                    connection.query(sqlGet, insertSqlGet, (err, results) => {
+                        if (err) {
+                            return connection.rollback(_ => {
+                                throw err
+                            })
+                        }
+                        connection.commit(err => {
+                            if (err) {
+                                connection.rollback(_ => {
+                                    throw err
+                                })
+                            }
+                            connection.release()
+                            callBack(null, results)
+                        })
+                    })
+                })
+            })
         })
     },
 
@@ -220,15 +246,43 @@ module.exports = {
     },
 
     toggleLowStock: (param, userID, callBack) => {
-        var sql = 'UPDATE products SET lowStock = !lowStock WHERE id = ? and shop_id = ?'
+        pool.getConnection((err, connection) => {
+            connection.beginTransaction(err => {
+                if (err) {
+                    throw err
+                }
+                var sql = 'UPDATE products SET lowStock = !lowStock WHERE id = ? and shop_id = ?'
 
-        var insertSql = [param.id, userID]
+                var insertSql = [param.id, userID]
 
-        pool.query(sql, insertSql, (err, results) => {
-            if (err) {
-                return callBack(err)
-            }
-            return callBack(null, results)
+                connection.query(sql, insertSql, (err, results) => {
+                    if (err) {
+                        return connection.rollback(_ => {
+                            throw err
+                        })
+                    }
+                    var sqlGet = 'SELECT lowStock FROM products WHERE id = ? AND shop_id = ?'
+
+                    var insertSqlGet = [param.id, userID]
+
+                    connection.query(sqlGet, insertSqlGet, (err, results) => {
+                        if (err) {
+                            return connection.rollback(_ => {
+                                throw err
+                            })
+                        }
+                        connection.commit(err => {
+                            if (err) {
+                                connection.rollback(_ => {
+                                    throw err
+                                })
+                            }
+                            connection.release()
+                            callBack(null, results)
+                        })
+                    })
+                })
+            })
         })
     }
 }

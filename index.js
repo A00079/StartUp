@@ -34,6 +34,7 @@ app.use(bodyParser.json());
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'))
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+// socket IO
 
 
 // ENDUSER Routes
@@ -64,6 +65,11 @@ if (process.env.NODE_ENV === 'production') {
     }
 }
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Server Running at ${port}`);
 });
+
+const io = require('./socket').init(server)
+io.on('connection', socket => {
+    console.log('client connected')
+})
